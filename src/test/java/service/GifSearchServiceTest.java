@@ -1,14 +1,14 @@
-/*
-package Service;
+package service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import gifengine.mapper.GifInfoMapperImpl;
 import gifengine.model.GifDto;
 import gifengine.model.GifInfo;
-import gifengine.model.GifResponse;
+import gifengine.model.GifResponseBody;
 import gifengine.model.GiphyResponse;
 import gifengine.service.GifSearchService;
 import gifengine.service.GiphyCommunicationService;
-import gifengine.service.GiphySearchDTOMapper;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -32,39 +32,37 @@ public class GifSearchServiceTest {
     GiphyCommunicationService giphyCommunicationService;
 
     @Mock
-    GiphySearchDTOMapper giphySearchDTOMapper;
+    GifInfoMapperImpl gifInfoMapper;
+
+    @Mock
+    ObjectMapper objectMapper;
+
+
 
     @Test
-    @Ignore
     public void shouldReturnEmptyListWhenResultSetLessThanFive(){
-        GifDto gifdto = GifDto.builder().url("url").id("id").build();
+        GifDto gifdto = GifDto.builder().url("url").gifId("id").build();
         GifDto[] gifDtos = new GifDto[]{gifdto};
         GiphyResponse giphyResponse = GiphyResponse.builder()
                 .data(gifDtos)
                 .build();
-        Mockito.when(giphyCommunicationService.pollGiphy(Mockito.any())).thenReturn(giphyResponse);
-        GifResponse gifResponse = gifSearchService.searchGif("search");
+        Mockito.when(giphyCommunicationService.pollGiphy(Mockito.any())).thenReturn(String.valueOf(giphyResponse));
+        GifResponseBody gifResponse = gifSearchService.searchGif("search");
         List<GifInfo> gifInfoList = gifResponse.getData();
         assertEquals(0 , gifInfoList.size());
     }
 
     @Test
     public void shouldReturnEmptyListWhenSearchTermIsEmpty(){
-        GifDto gifdto = GifDto.builder().url("url").id("id").build();
-        GifDto[] gifDtos = new GifDto[]{gifdto};
-        GiphyResponse giphyResponse = GiphyResponse.builder()
-                .data(gifDtos)
-                .build();
-        GifResponse gifResponse = gifSearchService.searchGif("");
+        GifResponseBody gifResponse = gifSearchService.searchGif("");
         List<GifInfo> gifInfoList = gifResponse.getData();
         assertEquals(0 , gifInfoList.size());
     }
 
     @Test
-    @Ignore
-    public void shouldReturnFifthWhenResultSetEqualsFive(){
-        GifDto gifdto = GifDto.builder().url("url").id("id").build();
-        GifDto gifDto5 = GifDto.builder().url("url5").id("id5").build();
+    public void shouldReturnFifthWhenResultSetEqualsFive() throws JsonProcessingException {
+        GifDto gifdto = GifDto.builder().url("url").gifId("id").build();
+        GifDto gifDto5 = GifDto.builder().url("url5").gifId("id5").build();
         GifDto[] gifDtos = new GifDto[]{gifdto,gifdto,gifdto,gifdto, gifDto5};
         GifInfo gifInfoExpected = GifInfo.builder().gifId("id5").url("url5").build();
         List<GifInfo> gifInfoListExpected = new LinkedList<>();
@@ -72,16 +70,15 @@ public class GifSearchServiceTest {
         GiphyResponse giphyResponse = GiphyResponse.builder()
                 .data(gifDtos)
                 .build();
-        Mockito.when(giphyCommunicationService.pollGiphy(Mockito.any())).thenReturn(giphyResponse);
-        Mockito.when(giphySearchDTOMapper.gifDTOMapper(Mockito.any(GifDto.class))).thenReturn(gifInfoListExpected);
+        Mockito.when(giphyCommunicationService.pollGiphy(Mockito.any())).thenReturn(String.valueOf(giphyResponse));
+        Mockito.when(objectMapper.readValue(Mockito.anyString(),Mockito.eq(GiphyResponse.class))).thenReturn(giphyResponse);
+        Mockito.when(gifInfoMapper.mapGifDto( Mockito.any(GifDto.class))).thenReturn(gifInfoExpected);
 
-        GifResponse gifResponse = gifSearchService.searchGif("search");
-        List<GifInfo> gifInfoList = gifResponse.getData();
+        GifResponseBody gifResponseBody = gifSearchService.searchGif("search");
+        List<GifInfo> gifInfoList = gifResponseBody.getData();
         assertEquals(1 , gifInfoList.size());
         GifInfo gifInfo = gifInfoList.get(0);
         assertEquals("id5" , gifInfo.getGifId());
         assertEquals("url5" , gifInfo.getUrl());
     }
-
 }
-*/
