@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gifengine.mapper.GifInfoMapper;
 import gifengine.model.GifInfo;
-import gifengine.model.GifResponse;
+import gifengine.model.GifResponseBody;
 import gifengine.model.GiphyResponse;
 import gifengine.model.GifDto;
 import lombok.RequiredArgsConstructor;
@@ -35,14 +35,14 @@ public class GifSearchService {
     /*
     The function is supposed to return a GifResponse object with input of searchTerm.
      */
-    public GifResponse searchGif(String searchTerm) {
+    public GifResponseBody searchGif(String searchTerm) {
         List<GifInfo> gifInfoList = new LinkedList<>();
-        GifResponse gifResponse = GifResponse.builder()
+        GifResponseBody gifResponseBody = GifResponseBody.builder()
                 .data(gifInfoList)
                 .build();
         //return empty list if searching with an empty search term
         if(searchTerm.isEmpty()){
-            return gifResponse;
+            return gifResponseBody;
         }
         LOGGER.info("Start searching for GIF");
         //get response from Giphy API
@@ -60,8 +60,8 @@ public class GifSearchService {
             GifDto fifth = gifs[4];
             gifInfoList.add(gifInfoMapper.mapGifDto(fifth));
         }
-        gifResponse.setData(gifInfoList);
-        return gifResponse;
+        gifResponseBody.setData(gifInfoList);
+        return gifResponseBody;
     }
 
 }

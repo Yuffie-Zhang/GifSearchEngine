@@ -1,7 +1,7 @@
 package Controller;
 
 import gifengine.controller.GifSearchController;
-import gifengine.model.GifResponse;
+import gifengine.model.GifResponseBody;
 import gifengine.service.GifSearchService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,11 +26,11 @@ public class GifSearchControllerTest {
 
     @Test
     public void testSearchGifSuccessful(){
-        GifResponse gifResponse = GifResponse.builder().build();
-        Mockito.when(gifSearchService.searchGif(Mockito.anyString())).thenReturn(gifResponse);
-        ResponseEntity<GifResponse> gifResponseResponseEntity = gifSearchController.searchGif("");
+        GifResponseBody gifResponseBody = GifResponseBody.builder().build();
+        Mockito.when(gifSearchService.searchGif(Mockito.anyString())).thenReturn(gifResponseBody);
+        ResponseEntity<GifResponseBody> gifResponseResponseEntity = gifSearchController.searchGif("");
         assertEquals(HttpStatus.OK, gifResponseResponseEntity.getStatusCode());
-        assertEquals(gifResponse, gifResponseResponseEntity.getBody());
+        assertEquals(gifResponseBody, gifResponseResponseEntity.getBody());
     }
 
 

@@ -1,6 +1,6 @@
 package gifengine.controller;
 
-import gifengine.model.GifResponse;
+import gifengine.model.GifResponseBody;
 import gifengine.service.GifSearchService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -24,7 +24,7 @@ public class GifSearchController {
     private final GifSearchService gifSearchService;
 
     @GetMapping("/search/{searchTerm}")
-    public ResponseEntity<GifResponse> searchGif(@PathVariable("searchTerm") String searchTerm){
+    public ResponseEntity<GifResponseBody> searchGif(@PathVariable("searchTerm") String searchTerm){
         LOGGER.info("You're search for GIF with search term {}",searchTerm);
         return new ResponseEntity<>(gifSearchService.searchGif(searchTerm), HttpStatus.OK);
     }

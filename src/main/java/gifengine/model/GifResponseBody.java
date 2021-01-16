@@ -7,7 +7,7 @@ import java.util.List;
 
 @Builder
 @Data
-public class GifResponse {
+public class GifResponseBody {
 
     private List<GifInfo> data;
 
