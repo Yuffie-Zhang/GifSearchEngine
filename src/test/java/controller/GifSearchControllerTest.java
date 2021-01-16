@@ -1,4 +1,4 @@
-package Controller;
+package controller;
 
 import gifengine.controller.GifSearchController;
 import gifengine.model.GifResponseBody;
