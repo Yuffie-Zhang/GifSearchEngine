@@ -1,15 +1,30 @@
-#
-# Build stage
-#
-FROM maven:3.6.0-jdk-11-slim AS build
-COPY src /home/app/src
-COPY pom.xml /home/app
-RUN mvn -f /home/app/pom.xml clean package
 
-#
-# Package stage
-#
-FROM openjdk:8-jdk-alpine
-COPY --from=build /home/app/target/*.jar app.jar
-EXPOSE 8080
-ENTRYPOINT ["java","-jar","/app.jar"]
+########Maven build stage########
+FROM maven:3.6-jdk-11 as maven_build
+WORKDIR /app
+
+#copy pom
+COPY pom.xml .
+
+#copy source
+COPY src ./src
+
+# build the app (no dependency download here)
+RUN --mount=type=cache,target=/root/.m2  mvn clean package -Dmaven.test.skip
+
+# split the built app into multiple layers to improve layer rebuild
+RUN mkdir -p target/docker-packaging && cd target/docker-packaging && jar -xf ../*.jar
+
+
+########JRE run stage########
+FROM openjdk:11.0-jre
+WORKDIR /app
+
+#copy built app layer by layer
+ARG DOCKER_PACKAGING_DIR=/app/target/docker-packaging
+COPY --from=maven_build ${DOCKER_PACKAGING_DIR}/BOOT-INF/lib /app/lib
+COPY --from=maven_build ${DOCKER_PACKAGING_DIR}/BOOT-INF/classes /app/classes
+COPY --from=maven_build ${DOCKER_PACKAGING_DIR}/META-INF /app/META-INF
+
+#run the app
+ENTRYPOINT ["java","-cp",".:classes:lib/*","gifengine.GIFEngineApplication"]
