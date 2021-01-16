@@ -7,9 +7,9 @@ import lombok.Data;
 @AllArgsConstructor
 public class RestTemplateException extends RuntimeException{
 
-    private String api;
+    private final String api;
 
-    private String error;
+    private final String error;
 
 }
 

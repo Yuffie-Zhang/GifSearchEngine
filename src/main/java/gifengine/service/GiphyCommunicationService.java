@@ -4,7 +4,6 @@ import gifengine.constants.AppConstants;
 import gifengine.exceptions.RestTemplateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;

@@ -12,12 +12,12 @@ import org.springframework.web.context.request.WebRequest;
 
 @ControllerAdvice
 public class ApiExceptionHandler {
-    private static final Logger LOGGER  = LoggerFactory.getLogger(GifSearchController.class);
+    private static final Logger LOGGER  = LoggerFactory.getLogger(ApiExceptionHandler.class);
 
 
     @ExceptionHandler(value = RestTemplateException.class)
     public final ResponseEntity<ErrorResponse> handleRestTemplateException(RestTemplateException ex, WebRequest request){
-        LOGGER.error("A rest template error happened: {}", ex.toString());
+        LOGGER.error("A rest template error happened: {}", ex.getError());
         return new ResponseEntity<>(new ErrorResponse(ex.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
