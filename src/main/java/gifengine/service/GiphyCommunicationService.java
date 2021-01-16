@@ -39,18 +39,13 @@ public class GiphyCommunicationService {
 
         RestTemplate restTemplate = new RestTemplate();
         LOGGER.info("Calling Giphy to search for GIF");
-        ResponseEntity<String> giphyResponseString = null;
+        ResponseEntity<String> giphyResponse = null;
         try{
-            giphyResponseString = restTemplate.exchange(uriString, HttpMethod.GET, entity, String.class);
-            String body = giphyResponseString.getBody();
-            HttpStatus statusCode = giphyResponseString.getStatusCode();
-            if(statusCode.equals(HttpStatus.OK)){
-                return body;
-            }
+            giphyResponse = restTemplate.exchange(uriString, HttpMethod.GET, entity, String.class);
+            return giphyResponse.getBody();
         }catch(RestClientException e){
             throw new RestTemplateException(GIPHY, e.getMessage());
         }
-        return giphyResponseString.getBody();
     }
 
     private String buildUriString(String searchTerm) {
