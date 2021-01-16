@@ -18,7 +18,7 @@ public class GiphySearchDTOMapper {
 
     public List<GifInfo> gifDTOMapper(GifDto giphyResponse){
         GifInfo gifInfo = GifInfo.builder()
-                .gifId(Optional.ofNullable(giphyResponse.getId()).orElse(""))
+                .gifId(Optional.ofNullable(giphyResponse.getGifId()).orElse(""))
                 .url(Optional.ofNullable(giphyResponse.getUrl()).orElse(""))
                 .build();
         List<GifInfo> gifInfoList = new LinkedList<>();

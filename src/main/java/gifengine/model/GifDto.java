@@ -8,6 +8,6 @@ import lombok.Data;
 @Builder
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class GifDto {
-    String id;
+    String gifId;
     String url;
 }

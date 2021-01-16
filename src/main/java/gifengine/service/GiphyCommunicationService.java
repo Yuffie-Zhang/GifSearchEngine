@@ -23,8 +23,6 @@ public class GiphyCommunicationService {
     @Value("${giphy.key}")
     private String giphyKey;
 
-
-
     private static final String GIPHY = "GIPHY";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GiphyCommunicationService.class);

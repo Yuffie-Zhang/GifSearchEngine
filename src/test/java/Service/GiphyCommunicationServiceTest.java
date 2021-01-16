@@ -24,7 +24,7 @@ public class GiphyCommunicationServiceTest {
     public void mapToGifInfo(){
         GifDto gifdto = GifDto.builder()
                 .url("url")
-                .id("id")
+                .gifId("id")
                 .build();
         List<GifInfo> gifInfoList = giphySearchDTOMapper.gifDTOMapper(gifdto);
         assertEquals(1,gifInfoList.size());

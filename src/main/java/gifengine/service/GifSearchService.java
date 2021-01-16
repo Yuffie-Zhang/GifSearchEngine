@@ -2,13 +2,14 @@ package gifengine.service;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import gifengine.mapper.GifInfoMapper;
 import gifengine.model.GifInfo;
 import gifengine.model.GifResponse;
 import gifengine.model.GiphyResponse;
 import gifengine.model.GifDto;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -19,24 +20,17 @@ import java.util.Objects;
 This service gather data from GIPHY and prepare response to GifSearchController
 */
 @Service
+@RequiredArgsConstructor
 public class GifSearchService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GifSearchService.class);
 
     private final GiphyCommunicationService giphyCommunicationService;
 
-    private final GiphySearchDTOMapper giphySearchDTOMapper;
+    private final ObjectMapper objectMapper;
 
-    private ObjectMapper objectMapper;
+    private final GifInfoMapper gifInfoMapper;
 
-
-    @Autowired
-    public GifSearchService(GiphyCommunicationService giphyCommunicationService, GiphySearchDTOMapper giphySearchDTOMapper,
-                            ObjectMapper objectMapper) {
-        this.giphyCommunicationService = giphyCommunicationService;
-        this.giphySearchDTOMapper = giphySearchDTOMapper;
-        this.objectMapper = objectMapper;
-    }
 
     /*
     The function is supposed to return a GifResponse object with input of searchTerm.
@@ -64,7 +58,7 @@ public class GifSearchService {
             //only return the fifth data if result set >=5
             GifDto[] gifs = giphyResponse.getData();
             GifDto fifth = gifs[4];
-            gifInfoList = giphySearchDTOMapper.gifDTOMapper(fifth);
+            gifInfoList.add(gifInfoMapper.mapGifDto(fifth));
         }
         gifResponse.setData(gifInfoList);
         return gifResponse;

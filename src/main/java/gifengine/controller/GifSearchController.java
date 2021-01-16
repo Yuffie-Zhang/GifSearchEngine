@@ -2,9 +2,9 @@ package gifengine.controller;
 
 import gifengine.model.GifResponse;
 import gifengine.service.GifSearchService;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,16 +16,12 @@ import org.springframework.web.bind.annotation.*;
 * */
 
 @RestController
+@RequiredArgsConstructor
 public class GifSearchController {
 
     private static final Logger LOGGER  = LoggerFactory.getLogger(GifSearchController.class);
 
     private final GifSearchService gifSearchService;
-
-    @Autowired
-    public GifSearchController(GifSearchService gifSearchService){
-        this.gifSearchService = gifSearchService;
-    }
 
     @GetMapping("/search/{searchTerm}")
     public ResponseEntity<GifResponse> searchGif(@PathVariable("searchTerm") String searchTerm){
