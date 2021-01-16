@@ -1,8 +1,8 @@
 package Service;
 
-import GIFEngine.Model.GifDto;
-import GIFEngine.Model.GifInfo;
-import GIFEngine.Service.GiphySearchDTOMapper;
+import gifengine.model.GifDto;
+import gifengine.model.GifInfo;
+import gifengine.service.GiphySearchDTOMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -29,7 +29,7 @@ public class GiphyCommunicationServiceTest {
         List<GifInfo> gifInfoList = giphySearchDTOMapper.gifDTOMapper(gifdto);
         assertEquals(1,gifInfoList.size());
         GifInfo gifInfo = gifInfoList.get(0);
-        assertEquals("id" , gifInfo.getGif_id());
+        assertEquals("id" , gifInfo.getGifId());
         assertEquals("url" , gifInfo.getUrl());
 
     }

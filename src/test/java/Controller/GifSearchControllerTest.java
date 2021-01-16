@@ -1,8 +1,8 @@
 package Controller;
 
-import GIFEngine.Controller.GifSearchController;
-import GIFEngine.Model.GifResponse;
-import GIFEngine.Service.GifSearchService;
+import gifengine.controller.GifSearchController;
+import gifengine.model.GifResponse;
+import gifengine.service.GifSearchService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;

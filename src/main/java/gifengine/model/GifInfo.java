@@ -1,4 +1,4 @@
-package GIFEngine.Model;
+package gifengine.model;
 
 import lombok.Builder;
 import lombok.Data;
@@ -6,6 +6,6 @@ import lombok.Data;
 @Builder
 @Data
 public class GifInfo {
-    String gif_id;
+    String gifId;
     String url;
 }

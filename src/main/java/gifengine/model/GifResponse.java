@@ -1,4 +1,4 @@
-package GIFEngine.Model;
+package gifengine.model;
 
 import lombok.Builder;
 import lombok.Data;

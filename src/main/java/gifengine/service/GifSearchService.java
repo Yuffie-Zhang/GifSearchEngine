@@ -1,9 +1,11 @@
-package GIFEngine.Service;
+package gifengine.service;
 
-import GIFEngine.Model.GifInfo;
-import GIFEngine.Model.GifResponse;
-import GIFEngine.Model.GiphyResponse;
-import GIFEngine.Model.GifDto;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import gifengine.model.GifInfo;
+import gifengine.model.GifResponse;
+import gifengine.model.GiphyResponse;
+import gifengine.model.GifDto;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,11 +27,15 @@ public class GifSearchService {
 
     private final GiphySearchDTOMapper giphySearchDTOMapper;
 
+    private ObjectMapper objectMapper;
+
 
     @Autowired
-    public GifSearchService(GiphyCommunicationService giphyCommunicationService, GiphySearchDTOMapper giphySearchDTOMapper) {
+    public GifSearchService(GiphyCommunicationService giphyCommunicationService, GiphySearchDTOMapper giphySearchDTOMapper,
+                            ObjectMapper objectMapper) {
         this.giphyCommunicationService = giphyCommunicationService;
         this.giphySearchDTOMapper = giphySearchDTOMapper;
+        this.objectMapper = objectMapper;
     }
 
     /*
@@ -46,8 +52,12 @@ public class GifSearchService {
         }
         LOGGER.info("Start searching for GIF");
         //get response from Giphy API
-        GiphyResponse giphyResponse = giphyCommunicationService.pollGiphy(searchTerm);
-
+        GiphyResponse giphyResponse = null;
+        try{
+            giphyResponse = objectMapper.readValue(giphyCommunicationService.pollGiphy(searchTerm), GiphyResponse.class);
+        }catch(JsonProcessingException e){
+            LOGGER.error("Failed to read value from external response");
+        }
 
         //prepare response using Giphy data
         if (Objects.nonNull(giphyResponse) && giphyResponse.getData().length >= 5) {

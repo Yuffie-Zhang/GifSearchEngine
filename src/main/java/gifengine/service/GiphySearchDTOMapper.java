@@ -1,7 +1,7 @@
-package GIFEngine.Service;
+package gifengine.service;
 
-import GIFEngine.Model.GifInfo;
-import GIFEngine.Model.GifDto;
+import gifengine.model.GifInfo;
+import gifengine.model.GifDto;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
@@ -18,7 +18,7 @@ public class GiphySearchDTOMapper {
 
     public List<GifInfo> gifDTOMapper(GifDto giphyResponse){
         GifInfo gifInfo = GifInfo.builder()
-                .gif_id(Optional.ofNullable(giphyResponse.getId()).orElse(""))
+                .gifId(Optional.ofNullable(giphyResponse.getId()).orElse(""))
                 .url(Optional.ofNullable(giphyResponse.getUrl()).orElse(""))
                 .build();
         List<GifInfo> gifInfoList = new LinkedList<>();

@@ -1,9 +1,7 @@
-package GIFEngine.Service;
+package gifengine.service;
 
-import GIFEngine.Constants.AppConstants;
-import GIFEngine.Model.GiphyResponse;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import gifengine.constants.AppConstants;
+import gifengine.exceptions.RestTemplateException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,19 +24,13 @@ public class GiphyCommunicationService {
     @Value("${giphy.key}")
     private String giphyKey;
 
-    @Value("${giphy.fetch.size}")
-    private int fetchSize;
 
-    private ObjectMapper objectMapper;
+
+    private static final String GIPHY = "GIPHY";
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GiphyCommunicationService.class);
 
-    @Autowired
-    public GiphyCommunicationService(ObjectMapper objectMapper){
-        this.objectMapper = objectMapper;
-    }
-
-    public GiphyResponse pollGiphy(String searchTerm){
+    public String pollGiphy(String searchTerm){
         //build request header
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
@@ -53,32 +45,22 @@ public class GiphyCommunicationService {
         ResponseEntity<String> giphyResponseString = null;
         try{
             giphyResponseString = restTemplate.exchange(uriString, HttpMethod.GET, entity, String.class);
-        }catch(RestClientException e){
-            LOGGER.error("Failed to call GIPHY");
-            throw e;
-        }
-
-        if (giphyResponseString.getStatusCode().equals(HttpStatus.OK)) {
             String body = giphyResponseString.getBody();
-
-            GiphyResponse giphyResponse = null;
-            try{
-                giphyResponse = objectMapper.readValue(body, GiphyResponse.class);
-            }catch(JsonProcessingException e){
-                LOGGER.error("Failed to read value from GIPHY response");
+            HttpStatus statusCode = giphyResponseString.getStatusCode();
+            if(statusCode.equals(HttpStatus.OK)){
+                return body;
             }
-            return giphyResponse;
-        } else {
-            //throw RunTimeException if Giphy call is not returned with 200OK
-            throw new RuntimeException("Giphy Call Failure");
+        }catch(RestClientException e){
+            throw new RestTemplateException(GIPHY, e.getMessage());
         }
+        return giphyResponseString.getBody();
     }
 
     private String buildUriString(String searchTerm) {
         return UriComponentsBuilder.fromHttpUrl(giphyUrl)
                 .queryParam("api_key", giphyKey)
                 //set a limit to avoid over-fetching.
-                .queryParam("limit", AppConstants.fetchSize)
+                .queryParam("limit", AppConstants.FETCH_SIZE)
                 .queryParam("q", searchTerm).toUriString();
     }
 }

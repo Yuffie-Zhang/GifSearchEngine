@@ -1,16 +1,13 @@
-package GIFEngine.Controller;
+package gifengine.controller;
 
-import GIFEngine.Model.GifResponse;
-import GIFEngine.Service.GifSearchService;
+import gifengine.model.GifResponse;
+import gifengine.service.GifSearchService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 /*
 * This endpoint aims to return information of GIF.
@@ -30,13 +27,10 @@ public class GifSearchController {
         this.gifSearchService = gifSearchService;
     }
 
-    @RequestMapping(
-            value = "/search/{searchTerm}",
-            method = RequestMethod.GET
-    )
+    @GetMapping("/search/{searchTerm}")
     public ResponseEntity<GifResponse> searchGif(@PathVariable("searchTerm") String searchTerm){
         LOGGER.info("You're search for GIF with search term {}",searchTerm);
-        return new ResponseEntity(gifSearchService.searchGif(searchTerm), HttpStatus.OK);
+        return new ResponseEntity<>(gifSearchService.searchGif(searchTerm), HttpStatus.OK);
     }
 
 }

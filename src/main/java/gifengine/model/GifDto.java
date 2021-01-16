@@ -1,4 +1,4 @@
-package GIFEngine.Model;
+package gifengine.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Builder;
