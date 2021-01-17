@@ -1,6 +1,5 @@
 package gifengine.service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import gifengine.mapper.GifInfoMapper;
 import gifengine.model.GifInfo;
@@ -46,12 +45,7 @@ public class GifSearchService {
         }
         LOGGER.info("Start searching for GIF");
         //get response from Giphy API
-        GiphyResponse giphyResponse = null;
-        try{
-            giphyResponse = objectMapper.readValue(giphyCommunicationService.pollGiphy(searchTerm), GiphyResponse.class);
-        }catch(JsonProcessingException e){
-            LOGGER.error("Failed to read value from external response");
-        }
+        GiphyResponse giphyResponse = giphyCommunicationService.searchByQuery(searchTerm);
 
         //prepare response using Giphy data
         if (Objects.nonNull(giphyResponse) && giphyResponse.getData().length >= 5) {

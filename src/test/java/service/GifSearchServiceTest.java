@@ -34,19 +34,10 @@ public class GifSearchServiceTest {
     @Mock
     GifInfoMapperImpl gifInfoMapper;
 
-    @Mock
-    ObjectMapper objectMapper;
-
-
 
     @Test
     public void shouldReturnEmptyListWhenResultSetLessThanFive(){
-        GifDto gifdto = GifDto.builder().url("url").id("id").build();
-        GifDto[] gifDtos = new GifDto[]{gifdto};
-        GiphyResponse giphyResponse = GiphyResponse.builder()
-                .data(gifDtos)
-                .build();
-        Mockito.when(giphyCommunicationService.pollGiphy(Mockito.any())).thenReturn(String.valueOf(giphyResponse));
+        Mockito.when(giphyCommunicationService.searchByQuery(Mockito.any())).thenReturn(Mockito.any(GiphyResponse.class));
         GifResponseBody gifResponse = gifSearchService.searchGif("search");
         List<GifInfo> gifInfoList = gifResponse.getData();
         assertEquals(0 , gifInfoList.size());
@@ -60,7 +51,7 @@ public class GifSearchServiceTest {
     }
 
     @Test
-    public void shouldReturnFifthWhenResultSetEqualsFive() throws JsonProcessingException {
+    public void shouldReturnFifthWhenResultSetEqualsFive()  {
         GifDto gifdto = GifDto.builder().url("url").id("id").build();
         GifDto gifDto5 = GifDto.builder().url("url5").id("id5").build();
         GifDto[] gifDtos = new GifDto[]{gifdto,gifdto,gifdto,gifdto, gifDto5};
@@ -70,8 +61,7 @@ public class GifSearchServiceTest {
         GiphyResponse giphyResponse = GiphyResponse.builder()
                 .data(gifDtos)
                 .build();
-        Mockito.when(giphyCommunicationService.pollGiphy(Mockito.any())).thenReturn(String.valueOf(giphyResponse));
-        Mockito.when(objectMapper.readValue(Mockito.anyString(),Mockito.eq(GiphyResponse.class))).thenReturn(giphyResponse);
+        Mockito.when(giphyCommunicationService.searchByQuery(Mockito.any())).thenReturn(giphyResponse);
         Mockito.when(gifInfoMapper.mapGifDto( Mockito.any(GifDto.class))).thenReturn(gifInfoExpected);
 
         GifResponseBody gifResponseBody = gifSearchService.searchGif("search");

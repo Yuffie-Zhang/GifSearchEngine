@@ -2,6 +2,7 @@ package gifengine.service;
 
 import gifengine.constants.AppConstants;
 import gifengine.exceptions.RestTemplateException;
+import gifengine.model.GiphyResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,7 +28,7 @@ public class GiphyCommunicationService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GiphyCommunicationService.class);
 
-    public String pollGiphy(String searchTerm){
+    public GiphyResponse searchByQuery(String searchTerm){
         //build request header
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-Type", "application/json");
@@ -35,20 +36,19 @@ public class GiphyCommunicationService {
         HttpEntity<?> entity = new HttpEntity<>(headers);
 
         //build URI
-        String uriString = buildUriString(searchTerm);
+        String uriString = buildSearchUriString(searchTerm);
 
         RestTemplate restTemplate = new RestTemplate();
         LOGGER.info("Calling Giphy to search for GIF");
-        ResponseEntity<String> giphyResponse = null;
         try{
-            giphyResponse = restTemplate.exchange(uriString, HttpMethod.GET, entity, String.class);
+            ResponseEntity<GiphyResponse> giphyResponse = restTemplate.exchange(uriString, HttpMethod.GET, entity, GiphyResponse.class);
             return giphyResponse.getBody();
         }catch(RestClientException e){
             throw new RestTemplateException(GIPHY, e.getMessage());
         }
     }
 
-    private String buildUriString(String searchTerm) {
+    private String buildSearchUriString(String searchTerm) {
         return UriComponentsBuilder.fromHttpUrl(giphyUrl)
                 .queryParam("api_key", giphyKey)
                 //set a limit to avoid over-fetching.
