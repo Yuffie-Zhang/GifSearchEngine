@@ -1,11 +1,8 @@
 package controller;
 
 import gifengine.controller.GifSearchController;
-import gifengine.model.GifInfo;
 import gifengine.model.GifResponseBody;
 import gifengine.service.GifSearchService;
-import org.junit.Before;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,10 +40,5 @@ class GifSearchControllerTest {
         this.mockMvc.perform(MockMvcRequestBuilders.get("/search/hi").accept(MediaType.APPLICATION_JSON));
         Mockito.verify(gifSearchService,Mockito.times(1)).searchGif(Mockito.anyString());
     }
-
-
-
-
-
 
 }
