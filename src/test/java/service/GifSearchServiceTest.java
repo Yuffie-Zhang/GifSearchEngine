@@ -41,7 +41,7 @@ public class GifSearchServiceTest {
 
     @Test
     public void shouldReturnEmptyListWhenResultSetLessThanFive(){
-        GifDto gifdto = GifDto.builder().url("url").gifId("id").build();
+        GifDto gifdto = GifDto.builder().url("url").id("id").build();
         GifDto[] gifDtos = new GifDto[]{gifdto};
         GiphyResponse giphyResponse = GiphyResponse.builder()
                 .data(gifDtos)
@@ -61,8 +61,8 @@ public class GifSearchServiceTest {
 
     @Test
     public void shouldReturnFifthWhenResultSetEqualsFive() throws JsonProcessingException {
-        GifDto gifdto = GifDto.builder().url("url").gifId("id").build();
-        GifDto gifDto5 = GifDto.builder().url("url5").gifId("id5").build();
+        GifDto gifdto = GifDto.builder().url("url").id("id").build();
+        GifDto gifDto5 = GifDto.builder().url("url5").id("id5").build();
         GifDto[] gifDtos = new GifDto[]{gifdto,gifdto,gifdto,gifdto, gifDto5};
         GifInfo gifInfoExpected = GifInfo.builder().gifId("id5").url("url5").build();
         List<GifInfo> gifInfoListExpected = new LinkedList<>();

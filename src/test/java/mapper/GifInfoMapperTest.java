@@ -26,7 +26,7 @@ public class GifInfoMapperTest {
     public void mapToGifInfoTest(){
         GifDto gifdto = GifDto.builder()
                 .url("url")
-                .gifId("id")
+                .id("id")
                 .build();
         GifInfo gifInfo = gifInfoMapper.mapGifDto(gifdto);
         assertEquals("id" , gifInfo.getGifId());

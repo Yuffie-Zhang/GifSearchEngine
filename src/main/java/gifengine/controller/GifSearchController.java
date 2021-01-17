@@ -17,13 +17,14 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
+@RequestMapping("/search")
 public class GifSearchController {
 
     private static final Logger LOGGER  = LoggerFactory.getLogger(GifSearchController.class);
 
     private final GifSearchService gifSearchService;
 
-    @GetMapping("/search/{searchTerm}")
+    @GetMapping("/{searchTerm}")
     public ResponseEntity<GifResponseBody> searchGif(@PathVariable("searchTerm") String searchTerm){
         LOGGER.info("You're search for GIF with search term {}",searchTerm);
         return new ResponseEntity<>(gifSearchService.searchGif(searchTerm), HttpStatus.OK);
