@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
+
 /*
 * This service will make GET call to GIPHY search API to retrieve data,
 * */
@@ -46,6 +47,7 @@ public class GiphyCommunicationService {
             throw new RestTemplateException(GIPHY, e.getMessage());
         }
     }
+
 
     private String buildSearchUriString(String searchTerm) {
         return UriComponentsBuilder.fromHttpUrl(giphyUrl)

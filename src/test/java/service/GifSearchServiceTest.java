@@ -1,7 +1,5 @@
 package service;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import gifengine.mapper.GifInfoMapperImpl;
 import gifengine.model.GifDto;
 import gifengine.model.GifInfo;

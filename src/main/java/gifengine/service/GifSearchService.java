@@ -1,6 +1,5 @@
 package gifengine.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import gifengine.mapper.GifInfoMapper;
 import gifengine.model.GifInfo;
 import gifengine.model.GifResponseBody;
@@ -25,8 +24,6 @@ public class GifSearchService {
     private static final Logger LOGGER = LoggerFactory.getLogger(GifSearchService.class);
 
     private final GiphyCommunicationService giphyCommunicationService;
-
-    private final ObjectMapper objectMapper;
 
     private final GifInfoMapper gifInfoMapper;
 
