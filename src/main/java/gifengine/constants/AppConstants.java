@@ -8,4 +8,6 @@ public class AppConstants {
     }
 
     public static final int FETCH_SIZE = 5;
+
+    public static final String GIPHY = "GIPHY";
 }

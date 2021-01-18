@@ -1,6 +1,5 @@
 package gifengine.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import gifengine.mapper.GifInfoMapper;
 import gifengine.model.GifInfo;
 import gifengine.model.GifResponseBody;
@@ -26,15 +25,13 @@ public class GifSearchService {
 
     private final GiphyCommunicationService giphyCommunicationService;
 
-    private final ObjectMapper objectMapper;
-
     private final GifInfoMapper gifInfoMapper;
 
 
     /*
     The function is supposed to return a GifResponse object with input of searchTerm.
      */
-    public GifResponseBody searchGif(String searchTerm) {
+    public GifResponseBody searchGif(String searchTerm){
         List<GifInfo> gifInfoList = new LinkedList<>();
         GifResponseBody gifResponseBody = GifResponseBody.builder()
                 .data(gifInfoList)
