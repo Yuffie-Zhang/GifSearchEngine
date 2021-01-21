@@ -21,8 +21,6 @@ public class RestTemplateExceptionHandler extends DefaultResponseErrorHandler {
 
                 throw new RestTemplateException(AppConstants.GIPHY, response.getStatusCode(), errorMessage);
             }
-        }else{
-            throw new RestTemplateException(AppConstants.GIPHY, response.getStatusCode(), "errorMessage");
         }
     }
 }
