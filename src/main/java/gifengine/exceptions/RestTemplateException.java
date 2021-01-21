@@ -14,6 +14,10 @@ public class RestTemplateException extends RuntimeException{
 
     final String error;
 
+    public String toString(){
+        return "Exception occurred when calling external service: " + this.api + ". Details : " + this.error;
+    }
+
 }
 
 
