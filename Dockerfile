@@ -9,22 +9,23 @@ COPY pom.xml .
 #copy source
 COPY src ./src
 
-# build the app (no dependency download here)
+# build the app, use cache so dependencies are only download once
 RUN --mount=type=cache,target=/root/.m2  mvn clean package -Dmaven.test.skip
 
-# split the built app into multiple layers to improve layer rebuild
+# unpack jar and save files in /target/docker-packaging
 RUN mkdir -p target/docker-packaging && cd target/docker-packaging && jar -xf ../*.jar
 
 
 ########JRE run stage########
-FROM openjdk:11.0-jre
+FROM openjdk:8-jdk-alpine
 WORKDIR /app
 
 #copy built app layer by layer
 ARG DOCKER_PACKAGING_DIR=/app/target/docker-packaging
+#The COPY --from=maven_build line copies just the built artifact from the previous stage into this new stage.
 COPY --from=maven_build ${DOCKER_PACKAGING_DIR}/BOOT-INF/lib /app/lib
 COPY --from=maven_build ${DOCKER_PACKAGING_DIR}/BOOT-INF/classes /app/classes
 COPY --from=maven_build ${DOCKER_PACKAGING_DIR}/META-INF /app/META-INF
 
-#run the app
+#run the app. use the application’s own main class is faster than using jar
 ENTRYPOINT ["java","-cp",".:classes:lib/*","gifengine.GIFEngineApplication"]
