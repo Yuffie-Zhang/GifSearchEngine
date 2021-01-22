@@ -1,18 +1,13 @@
 package mapper;
 
 import gifengine.mapper.GifInfoMapper;
-import gifengine.mapper.GifInfoMapperImpl;
-import gifengine.model.GifDto;
-import gifengine.model.GifInfo;
-import org.junit.Before;
+import gifengine.model.giphy.GifDto;
+import gifengine.model.view.GifInfo;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mapstruct.factory.Mappers;
-import org.mockito.InjectMocks;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.LinkedList;
-import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 

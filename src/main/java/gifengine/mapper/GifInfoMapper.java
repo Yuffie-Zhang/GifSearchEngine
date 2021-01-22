@@ -1,7 +1,7 @@
 package gifengine.mapper;
 
-import gifengine.model.GifDto;
-import gifengine.model.GifInfo;
+import gifengine.model.giphy.GifDto;
+import gifengine.model.view.GifInfo;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 

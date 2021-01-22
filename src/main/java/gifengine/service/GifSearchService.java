@@ -1,18 +1,20 @@
 package gifengine.service;
 
 import gifengine.mapper.GifInfoMapper;
-import gifengine.model.GifInfo;
-import gifengine.model.GifResponseBody;
-import gifengine.model.GiphyResponse;
-import gifengine.model.GifDto;
+import gifengine.model.view.GifInfo;
+import gifengine.model.view.GifResponseBody;
+import gifengine.model.giphy.GiphyResponse;
+import gifengine.model.giphy.GifDto;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /*
 This service gather data from GIPHY and prepare response to GifSearchController
@@ -48,8 +50,7 @@ public class GifSearchService {
         if (Objects.nonNull(giphyResponse) && giphyResponse.getData().length >= 5) {
             //only return the fifth data if result set >=5
             GifDto[] gifs = giphyResponse.getData();
-            GifDto fifth = gifs[4];
-            gifInfoList.add(gifInfoMapper.mapGifDto(fifth));
+            gifInfoList = Arrays.stream(gifs).map(gifInfoMapper::mapGifDto).collect(Collectors.toList());
         }
         gifResponseBody.setData(gifInfoList);
         return gifResponseBody;

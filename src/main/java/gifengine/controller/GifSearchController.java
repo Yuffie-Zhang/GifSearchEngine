@@ -1,6 +1,6 @@
 package gifengine.controller;
 
-import gifengine.model.GifResponseBody;
+import gifengine.model.view.GifResponseBody;
 import gifengine.service.GifSearchService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;

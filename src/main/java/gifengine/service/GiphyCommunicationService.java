@@ -2,7 +2,7 @@ package gifengine.service;
 
 import gifengine.constants.AppConstants;
 import gifengine.exceptionhandler.RestTemplateExceptionHandler;
-import gifengine.model.GiphyResponse;
+import gifengine.model.giphy.GiphyResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

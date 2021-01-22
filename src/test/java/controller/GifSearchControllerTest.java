@@ -1,7 +1,7 @@
 package controller;
 
 import gifengine.controller.GifSearchController;
-import gifengine.model.GifResponseBody;
+import gifengine.model.view.GifResponseBody;
 import gifengine.service.GifSearchService;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

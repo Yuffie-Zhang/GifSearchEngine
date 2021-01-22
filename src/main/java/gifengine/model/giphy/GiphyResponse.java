@@ -1,4 +1,4 @@
-package gifengine.model;
+package gifengine.model.giphy;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
@@ -6,12 +6,11 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Data
 @Builder
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class GifDto {
-    String id;
-    String url;
+public class GiphyResponse {
+    GifDto[] data;
 }
